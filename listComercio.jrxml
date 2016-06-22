@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-06-21T21:37:40 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="allComercio" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e5d69bd3-2569-42d3-a02f-f4cb3eff5cce">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conexion.xml"/>
+	<parameter name="username" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["ADMIN"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="RPT_PAGE_TITLE" class="java.lang.String">
+		<defaultValueExpression><![CDATA["PAGE TITLE"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="RPT_URI_LOGO_LEFT" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["logo-left.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="RPT_URI_LOGO_RIGHT" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["logo-right.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="RPT_URI_WORKSPACE" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="RPT_DIRECTORY_SEPARATOR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="RPT_PAGE_HEADER" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["LISTADO DE COMERCIOS"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="RPT_PAGE_UBICATION" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT com_rif,
+	com_nomb_estb,
+	com_num_ptte,
+	com_num_lic,
+	com_telef_fijo,
+	com_prop_cedu,
+	com_prop_nomb,
+	com_prop_apell,
+	com_prop_telef_cel,
+	com_prop_nac,
+	com_act_ecnma
+FROM comercio]]>
+	</queryString>
+	<field name="com_rif" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="com_nomb_estb" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="com_num_ptte" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="com_num_lic" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="com_telef_fijo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="com_prop_cedu" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="com_prop_nomb" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="com_prop_apell" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="com_prop_telef_cel" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="com_prop_nac" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="com_act_ecnma" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="100" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="100" height="100" uuid="fd74d685-39f1-4458-aae3-9c4815cb8f21"/>
+				<imageExpression><![CDATA[$P{RPT_URI_WORKSPACE}+$P{RPT_DIRECTORY_SEPARATOR}+$P{RPT_URI_LOGO_LEFT}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="468" y="0" width="100" height="100" uuid="1583ae47-f178-43f1-8803-b742f8778c0e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{RPT_URI_WORKSPACE}+$P{RPT_DIRECTORY_SEPARATOR}+$P{RPT_URI_LOGO_RIGHT}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="103" y="0" width="366" height="100" uuid="2e0df83d-59c2-41ec-a33e-7ee18bbc291d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RPT_PAGE_TITLE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="10" width="350" height="30" uuid="354fac2b-2de1-422a-994d-8315ed0633bf"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RPT_PAGE_HEADER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="434" y="6" width="100" height="30" uuid="90afca88-35e4-4175-b3c9-cca850efd472"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pagína  " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement positionType="FixRelativeToBottom" x="528" y="6" width="40" height="30" uuid="e65ce1e2-8ceb-4bf0-95fd-fa92b51c60d6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" de  " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="40" height="30" uuid="0652332c-b0d8-4f2f-a0fa-049d15cc7953"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="0" width="120" height="30" uuid="4370c0ae-8da0-4b7a-b66d-1e0116358e7b"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RIF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="160" y="0" width="410" height="30" uuid="05905bb7-ff6c-459f-9635-ba53292c68dc"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RAZON SOCIAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30">
+			<textField>
+				<reportElement x="0" y="0" width="40" height="30" uuid="85bc3bf5-db0a-4fbe-9f38-fd53fbd5b88b"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" isPrintRepeatedValues="false" x="40" y="0" width="120" height="30" uuid="61e04bb8-970a-4867-81b6-29d1c744dc1c"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{com_rif}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" positionType="Float" isPrintRepeatedValues="false" x="160" y="0" width="410" height="30" uuid="c8642872-fef5-4aeb-8823-9b6c37bf085d"/>
+				<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{com_nomb_estb}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="2" y="0" width="378" height="30" uuid="2e04000b-3d8e-442c-be5d-6bf3a75adceb"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{RPT_PAGE_UBICATION}+", "+new java.text.SimpleDateFormat("d 'de' MMMM 'de' yyyy   hh:mm a", new Locale("es","ES")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="0" width="190" height="30" uuid="91c9d9f6-812b-4ac0-9896-03569752ef62"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["GENERADO POR: "+$P{username}.toUpperCase( )]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

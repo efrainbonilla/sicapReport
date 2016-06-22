@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-06-21T15:00:20 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="totalFacturas" pageWidth="612" pageHeight="1008" whenNoDataType="NoDataSection" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="71f539ba-7e8c-4ad1-b3b7-b22a58cd61b0">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conexion.xml"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<parameter name="com_id" class="java.lang.String"/>
+	<parameter name="reg_id" class="java.lang.String"/>
+	<parameter name="dateFrom" class="java.lang.String"/>
+	<parameter name="dateTo" class="java.lang.String"/>
+	<parameter name="regids" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+		com.com_nomb_estb,
+		com.com_id,
+		FORMAT(SUM(fc.fact_total),2) AS invoices_total,
+		GROUP_CONCAT(fc.fact_codi) AS invoice_codi,
+		GROUP_CONCAT(FORMAT(fc.fact_total,2),'|') AS invoice_total,
+		GROUP_CONCAT(fc.fact_codi,"(", FORMAT(fc.fact_total,2),")") AS invoice_codi_total
+		FROM comercio com
+		INNER JOIN reg_diario rd ON(com.com_id=rd.com_id)
+		INNER JOIN factura fc ON(rd.reg_id=fc.reg_id)
+		WHERE rd.reg_fech BETWEEN   $P{dateFrom}  AND  $P{dateTo}  
+		AND rd.reg_id IN ($P!{regids} ) 
+		GROUP BY com.com_nomb_estb]]>
+	</queryString>
+	<field name="com_nomb_estb" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="com_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="invoices_total" class="java.lang.String"/>
+	<field name="invoice_codi" class="java.lang.String"/>
+	<field name="invoice_total" class="java.lang.String"/>
+	<field name="invoice_codi_total" class="java.lang.String"/>
+	<detail>
+		<band height="22">
+			<textField>
+				<reportElement x="402" y="0" width="166" height="22" uuid="8cb78737-ac15-430f-9a1a-fff10cb975c5">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{invoices_total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="402" height="22" uuid="18a627ba-0904-4d6a-96c1-3f1617c8ba67">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO TOTAL DE FACTURAS:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

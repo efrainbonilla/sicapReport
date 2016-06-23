@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-06-23T11:10:27 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subrptProductoTotal" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="52d4c786-6631-4c2e-8b45-35db3daa3510">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conexion.xml"/>
+	<parameter name="dateFrom" class="java.lang.String"/>
+	<parameter name="dateTo" class="java.lang.String"/>
+	<parameter name="com" class="java.lang.String"/>
+	<parameter name="prod" class="java.lang.String"/>
+	<parameter name="tipo" class="java.lang.String"/>
+	<parameter name="DATE_BETWEEN" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+	prod.prod_nomb AS producto,
+	SUM(factprod.fprod_cant) AS total,
+	cantidad.dnm_nomb AS denominacion,
+	prestacion.prestc,
+	prestacion.prestc_group
+	FROM comercio com
+	INNER JOIN reg_diario regd  ON(regd.com_id=com.com_id)
+	INNER JOIN factura fact ON(regd.reg_id=fact.reg_id)
+	LEFT JOIN fact_producto factprod ON(fact.fact_id=factprod.fact_id)
+	LEFT JOIN producto prod ON(factprod.prod_id=prod.prod_id)
+	INNER JOIN categoria cat ON(prod.cat_id=cat.cat_id)
+	LEFT JOIN (
+		SELECT
+		factprod.fprod_id,
+		CONCAT(factprod.prestc_num,' ', med.med_nomb) AS prestc,
+		CONCAT(factprod.prestc_num,' ', med.med_nomb, ' ', prod.prod_nomb) AS prestc_group
+		FROM fact_producto factprod
+		INNER JOIN producto prod ON(prod.prod_id=factprod.prod_id)
+		INNER JOIN medida med ON(med.med_id=factprod.prestc_med)
+	) AS prestacion ON(factprod.fprod_id=prestacion.fprod_id)
+	INNER JOIN (
+		SELECT
+		factprod.fprod_id,
+		CONCAT(factprod.fprod_cant,' ', med.med_nomb) AS dnm,
+		med.med_nomb AS dnm_nomb
+		FROM fact_producto factprod
+		INNER JOIN medida med ON(med.med_id=factprod.med_id)
+	) AS cantidad ON(factprod.fprod_id=cantidad.fprod_id)
+	WHERE
+	regd.reg_fech BETWEEN $P{dateFrom}  AND $P{dateTo}  $P!{prod}  $P!{com}   $P!{tipo} 
+	GROUP BY prestacion.prestc_group
+	ORDER BY cat.cat_nomb, prod.prod_nomb, prestacion.prestc_group ASC]]>
+	</queryString>
+	<field name="producto" class="java.lang.String"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="denominacion" class="java.lang.String"/>
+	<field name="prestc" class="java.lang.String"/>
+	<field name="prestc_group" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="43">
+			<staticText>
+				<reportElement x="0" y="1" width="190" height="22" uuid="e0e2d9f8-267b-4ef7-9ca8-fa8f069692fe">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LISTA DE PRODUCTOS]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="20" width="568" height="22" uuid="1d7d4a58-da61-4d8b-a254-1f6b79637f71">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{DATE_BETWEEN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="434" y="1" width="100" height="30" uuid="89dbfd30-169a-40d9-bcae-5a971ef1f654"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pagína  " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement positionType="FixRelativeToBottom" x="528" y="1" width="40" height="30" uuid="cd8666c6-343e-4126-8876-17735f44cb36"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" de  " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="190" height="22" uuid="6d510c11-055f-4796-a612-5e1522b70aa6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRODUCTOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="1" width="128" height="22" uuid="0be19dfe-d5e7-4ab0-832e-1595783b7eba"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRESENTACIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="318" y="1" width="102" height="22" uuid="1c3e1282-c11d-49a7-807b-9143fc2834f2"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="1" width="148" height="22" uuid="c4e24d1e-590d-4374-b658-fe67d56154e5"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DENOMINACIÓN]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="-1" width="190" height="22" uuid="85765cc7-685f-4f70-a212-b52276f28cc2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="190" y="-1" width="128" height="22" uuid="020c20af-a4c9-4dea-8efb-55bd2030a529"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{prestc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="318" y="-1" width="102" height="22" uuid="a72f2d96-ef1d-4228-aeb6-c144ceebc05d"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="420" y="-1" width="148" height="22" uuid="c1e2c47d-3be1-4447-856d-ae3923456dfa"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{denominacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

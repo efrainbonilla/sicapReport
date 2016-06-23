@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-06-21T21:37:40 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="allComercio" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e5d69bd3-2569-42d3-a02f-f4cb3eff5cce">
+<!-- 2016-06-23T11:04:47 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="allComercio" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" uuid="e5d69bd3-2569-42d3-a02f-f4cb3eff5cce">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conexion.xml"/>
 	<parameter name="dateFrom" class="java.lang.String" isForPrompting="false">
@@ -40,6 +40,18 @@
 	<parameter name="prod" class="java.lang.String">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tipo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DATE_BETWEEN" class="java.lang.String">
+		<defaultValueExpression><![CDATA[(new java.text.SimpleDateFormat("dd-MM-YYYY").format(new java.text.SimpleDateFormat("dd-MM-YYYY").parse($P{dateFrom})).toString().contains(new java.text.SimpleDateFormat("dd-MM-YYYY").format(new java.text.SimpleDateFormat("dd-MM-YYYY").parse($P{dateTo})).toString()))?
+ (new java.text.SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES")).format(new java.text.SimpleDateFormat("yy-MM-dd HH:mm").parse($P{dateFrom})))
+ :
+("Desde: "
++new java.text.SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES")).format(new java.text.SimpleDateFormat("yy-MM-dd HH:mm").parse($P{dateFrom}))
++ " Hasta: "
+ +new java.text.SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES")).format(new java.text.SimpleDateFormat("yy-MM-dd HH:mm").parse($P{dateTo})))]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -338,13 +350,7 @@ $V{regids}.contains($F{reg_id}+"") ? $V{regids}:$V{regids}+","+$F{reg_id}]]></va
 			<textField>
 				<reportElement x="0" y="31" width="570" height="14" uuid="26e499b5-b530-4b63-bbff-7c6aa638f7e7"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[(new java.text.SimpleDateFormat("dd-MM-YYYY").format(new java.text.SimpleDateFormat("dd-MM-YYYY").parse($P{dateFrom})).toString().contains(new java.text.SimpleDateFormat("dd-MM-YYYY").format(new java.text.SimpleDateFormat("dd-MM-YYYY").parse($P{dateTo})).toString()))?
- (new java.text.SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES")).format(new java.text.SimpleDateFormat("yy-MM-dd HH:mm").parse($P{dateFrom})))
- :
-("Desde: "
-+new java.text.SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES")).format(new java.text.SimpleDateFormat("yy-MM-dd HH:mm").parse($P{dateFrom}))
-+ " Hasta: "
- +new java.text.SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES")).format(new java.text.SimpleDateFormat("yy-MM-dd HH:mm").parse($P{dateTo})))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{DATE_BETWEEN}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="10" width="434" height="20" uuid="c0fea765-b0c1-4792-a5a6-2f3d70c46a42"/>
@@ -369,4 +375,31 @@ $V{regids}.contains($F{reg_id}+"") ? $V{regids}:$V{regids}+","+$F{reg_id}]]></va
 			</textField>
 		</band>
 	</pageFooter>
+	<summary>
+		<band height="30">
+			<subreport>
+				<reportElement x="-20" y="0" width="590" height="30" uuid="1189a542-5b24-44ab-a996-6450df108e57"/>
+				<subreportParameter name="dateFrom">
+					<subreportParameterExpression><![CDATA[$P{dateFrom}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dateTo">
+					<subreportParameterExpression><![CDATA[$P{dateTo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="com">
+					<subreportParameterExpression><![CDATA[$P{com}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="prod">
+					<subreportParameterExpression><![CDATA[$P{prod}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tipo">
+					<subreportParameterExpression><![CDATA[$P{tipo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="DATE_BETWEEN">
+					<subreportParameterExpression><![CDATA[$P{DATE_BETWEEN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{RPT_URI_WORKSPACE}+$P{RPT_DIRECTORY_SEPARATOR}+"subrptProductoTotal.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
 </jasperReport>

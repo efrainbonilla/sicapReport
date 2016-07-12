@@ -1,16 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-06-23T11:10:27 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subrptProductoTotal" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="52d4c786-6631-4c2e-8b45-35db3daa3510">
+<!-- 2016-07-12T12:51:55 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subrptProductoTotal" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="52d4c786-6631-4c2e-8b45-35db3daa3510">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conexion.xml"/>
-	<parameter name="dateFrom" class="java.lang.String"/>
-	<parameter name="dateTo" class="java.lang.String"/>
-	<parameter name="com" class="java.lang.String"/>
-	<parameter name="prod" class="java.lang.String"/>
-	<parameter name="tipo" class="java.lang.String"/>
-	<parameter name="DATE_BETWEEN" class="java.lang.String">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="dateFrom" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["2016-06-17 00:00:00"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateTo" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["2016-06-17 23:59:59"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="com" class="java.lang.String">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="prod" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tipo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DATE_BETWEEN" class="java.lang.String">
+		<defaultValueExpression><![CDATA[(new java.text.SimpleDateFormat("dd-MM-YYYY").format(new java.text.SimpleDateFormat("dd-MM-YYYY").parse($P{dateFrom})).toString().contains(new java.text.SimpleDateFormat("dd-MM-YYYY").format(new java.text.SimpleDateFormat("dd-MM-YYYY").parse($P{dateTo})).toString()))?
+ (new java.text.SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES")).format(new java.text.SimpleDateFormat("yy-MM-dd HH:mm").parse($P{dateFrom})))
+ :
+("Desde: "
++new java.text.SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES")).format(new java.text.SimpleDateFormat("yy-MM-dd HH:mm").parse($P{dateFrom}))
++ " Hasta: "
+ +new java.text.SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES")).format(new java.text.SimpleDateFormat("yy-MM-dd HH:mm").parse($P{dateTo})))]]></defaultValueExpression>
+	</parameter>
+	<parameter name="RPT_URI_WORKSPACE" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{RPT_URI_WORKSPACE}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="RPT_DIRECTORY_SEPARATOR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{RPT_DIRECTORY_SEPARATOR}]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -52,9 +85,6 @@
 	<field name="denominacion" class="java.lang.String"/>
 	<field name="prestc" class="java.lang.String"/>
 	<field name="prestc_group" class="java.lang.String"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
 	<pageHeader>
 		<band height="43">
 			<staticText>
@@ -98,9 +128,9 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="23" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="1" width="190" height="22" uuid="6d510c11-055f-4796-a612-5e1522b70aa6">
+				<reportElement x="0" y="0" width="190" height="22" uuid="6d510c11-055f-4796-a612-5e1522b70aa6">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
@@ -115,7 +145,7 @@
 				<text><![CDATA[PRODUCTOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="190" y="1" width="128" height="22" uuid="0be19dfe-d5e7-4ab0-832e-1595783b7eba"/>
+				<reportElement x="190" y="0" width="128" height="22" uuid="0be19dfe-d5e7-4ab0-832e-1595783b7eba"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -128,7 +158,7 @@
 				<text><![CDATA[PRESENTACIÓN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="318" y="1" width="102" height="22" uuid="1c3e1282-c11d-49a7-807b-9143fc2834f2"/>
+				<reportElement x="318" y="0" width="102" height="22" uuid="1c3e1282-c11d-49a7-807b-9143fc2834f2"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -141,7 +171,7 @@
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="420" y="1" width="148" height="22" uuid="c4e24d1e-590d-4374-b658-fe67d56154e5"/>
+				<reportElement x="420" y="0" width="148" height="22" uuid="c4e24d1e-590d-4374-b658-fe67d56154e5"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -156,9 +186,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="-1" width="190" height="22" uuid="85765cc7-685f-4f70-a212-b52276f28cc2">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="190" height="22" uuid="85765cc7-685f-4f70-a212-b52276f28cc2">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
@@ -171,7 +201,7 @@
 				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="190" y="-1" width="128" height="22" uuid="020c20af-a4c9-4dea-8efb-55bd2030a529"/>
+				<reportElement positionType="FixRelativeToBottom" x="190" y="0" width="128" height="22" uuid="020c20af-a4c9-4dea-8efb-55bd2030a529"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -182,7 +212,7 @@
 				<textFieldExpression><![CDATA[$F{prestc}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="318" y="-1" width="102" height="22" uuid="a72f2d96-ef1d-4228-aeb6-c144ceebc05d"/>
+				<reportElement positionType="FixRelativeToBottom" x="318" y="0" width="102" height="22" uuid="a72f2d96-ef1d-4228-aeb6-c144ceebc05d"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -193,7 +223,7 @@
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="420" y="-1" width="148" height="22" uuid="c1e2c47d-3be1-4447-856d-ae3923456dfa"/>
+				<reportElement positionType="FixRelativeToBottom" x="420" y="0" width="148" height="22" uuid="c1e2c47d-3be1-4447-856d-ae3923456dfa"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>

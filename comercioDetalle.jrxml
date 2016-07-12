@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-07-12T11:34:37 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="allComercio" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="2" isSummaryNewPage="true" uuid="e5d69bd3-2569-42d3-a02f-f4cb3eff5cce">
+<!-- 2016-07-12T12:46:13 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comercioDetalle" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="2" isSummaryNewPage="true" uuid="e5d69bd3-2569-42d3-a02f-f4cb3eff5cce">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conexion.xml"/>
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="dateFrom" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["2016-02-05 00:00:00"]]></defaultValueExpression>
 	</parameter>
@@ -38,7 +31,7 @@
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
 	<parameter name="RPT_PAGE_HEADER" class="java.lang.String">
-		<defaultValueExpression><![CDATA["REPORTE  DE COMERCIOS SADA REGISTRADOS"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["REPORTE DE COMERCIOS REGISTRADOS"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="RPT_PAGE_UBICATION" class="java.lang.String">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
@@ -51,7 +44,7 @@
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
 	<parameter name="tipo" class="java.lang.String">
-		<defaultValueExpression><![CDATA[" AND com.com_sada_chk=1"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
 	<parameter name="DATE_BETWEEN" class="java.lang.String">
 		<defaultValueExpression><![CDATA[(new java.text.SimpleDateFormat("dd-MM-YYYY").format(new java.text.SimpleDateFormat("dd-MM-YYYY").parse($P{dateFrom})).toString().contains(new java.text.SimpleDateFormat("dd-MM-YYYY").format(new java.text.SimpleDateFormat("dd-MM-YYYY").parse($P{dateTo})).toString()))?
@@ -66,205 +59,37 @@
 		<![CDATA[SELECT
 	com.com_id,
 	regd.reg_id,
+	regd.reg_id AS id,
+	DATE_FORMAT(regd.reg_fech, '%Y-%m-%d %H:%i:%s') AS reg_fech,
 	com.com_nomb_estb AS estb,
-	com.com_sada_codi,
 	CONCAT(com.com_prop_nomb, ' ', com.com_prop_apell) AS prop,
-	prod.prod_nomb AS producto,
-	factprod.fprod_cant AS total,
-	cantidad.dnm_nomb AS denominacion,
-	prestacion.prestc,
-	prestacion.prestc_group,
-	FORMAT(fact.fact_total,2) AS ftotal,
-	fact.fact_codi
+	com.com_rif AS rif
 	FROM comercio com
 	INNER JOIN reg_diario regd  ON(regd.com_id=com.com_id)
-	INNER JOIN factura fact ON(regd.reg_id=fact.reg_id)
-	LEFT JOIN fact_producto factprod ON(fact.fact_id=factprod.fact_id)
-	LEFT JOIN producto prod ON(factprod.prod_id=prod.prod_id)
-	LEFT JOIN (
-		SELECT
-		factprod.fprod_id,
-		CONCAT(factprod.prestc_num,' ', med.med_nomb) AS prestc,
-		CONCAT(factprod.prestc_num,' ', med.med_nomb, ' ', prod.prod_nomb) AS prestc_group
-		FROM fact_producto factprod
-		INNER JOIN producto prod ON(prod.prod_id=factprod.prod_id)
-		INNER JOIN medida med ON(med.med_id=factprod.prestc_med)
-	) AS prestacion ON(factprod.fprod_id=prestacion.fprod_id)
-	INNER JOIN (
-		SELECT
-		factprod.fprod_id,
-		CONCAT(factprod.fprod_cant,' ', med.med_nomb) AS dnm,
-		med.med_nomb AS dnm_nomb
-		FROM fact_producto factprod
-		INNER JOIN medida med ON(med.med_id=factprod.med_id)
-	) AS cantidad ON(factprod.fprod_id=cantidad.fprod_id)
 	WHERE
-	regd.reg_fech BETWEEN $P{dateFrom}  AND $P{dateTo}  $P!{prod}  $P!{com}  	AND com.com_sada_chk
-	ORDER BY com.com_nomb_estb,prod.prod_nomb, prestacion.prestc_group ASC]]>
+	regd.reg_fech BETWEEN $P{dateFrom}  AND $P{dateTo} $P!{prod}  $P!{com}
+	ORDER BY regd.reg_id ASC, com.com_nomb_estb ASC]]>
 	</queryString>
 	<field name="com_id" class="java.lang.Integer"/>
 	<field name="reg_id" class="java.lang.Integer"/>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="reg_fech" class="java.lang.String"/>
 	<field name="estb" class="java.lang.String"/>
-	<field name="com_sada_codi" class="java.lang.String"/>
 	<field name="prop" class="java.lang.String"/>
-	<field name="producto" class="java.lang.String"/>
-	<field name="total" class="java.lang.Integer"/>
-	<field name="denominacion" class="java.lang.String"/>
-	<field name="prestc" class="java.lang.String"/>
-	<field name="prestc_group" class="java.lang.String"/>
-	<field name="ftotal" class="java.lang.String"/>
-	<field name="fact_codi" class="java.lang.String"/>
-	<variable name="group2_total" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
-		<variableExpression><![CDATA[$F{total}]]></variableExpression>
-	</variable>
-	<variable name="regids" class="java.lang.String" resetType="Group" resetGroup="Group1">
+	<field name="rif" class="java.lang.String"/>
+	<variable name="regids" class="java.lang.String">
 		<variableExpression><![CDATA[$V{regids}.equalsIgnoreCase("")?
 $V{regids}.contains($F{reg_id}+"") ? $V{regids}:$V{regids}+$F{reg_id}:
 $V{regids}.contains($F{reg_id}+"") ? $V{regids}:$V{regids}+","+$F{reg_id}]]></variableExpression>
 		<initialValueExpression><![CDATA[""]]></initialValueExpression>
 	</variable>
-	<group name="Group1">
-		<groupExpression><![CDATA[$F{estb}]]></groupExpression>
-		<groupHeader>
-			<band height="72">
-				<staticText>
-					<reportElement x="318" y="49" width="102" height="22" uuid="25788f85-2aef-4dfa-8de3-720da656ba91"/>
-					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.5"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.5"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" isBold="true"/>
-					</textElement>
-					<text><![CDATA[TOTAL]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="420" y="49" width="148" height="22" uuid="3d44141b-2db8-453b-b277-de7ba3d0e9a0"/>
-					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.5"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.5"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" isBold="true"/>
-					</textElement>
-					<text><![CDATA[DENOMINACIÓN]]></text>
-				</staticText>
-				<textField>
-					<reportElement x="190" y="5" width="378" height="22" uuid="0b47ef1c-74c4-4c70-8771-4eb3887d83de"/>
-					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.0"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.5"/>
-					</box>
-					<textElement verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{estb}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="0" y="5" width="190" height="22" uuid="ceb32060-7eea-404a-9a77-53cfd8400a59">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					</reportElement>
-					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.5"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.0"/>
-					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font isBold="true"/>
-					</textElement>
-					<text><![CDATA[RAZON SOCIAL:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="0" y="49" width="190" height="22" uuid="13bd119b-80cd-4ec1-a762-6c7f67949bb9">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					</reportElement>
-					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.5"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.5"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" isBold="true"/>
-					</textElement>
-					<text><![CDATA[PRODUCTOS]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="190" y="49" width="128" height="22" uuid="fcac4e98-3a4d-479c-b991-1ea88c38dea3"/>
-					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.5"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.5"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="SansSerif" isBold="true"/>
-					</textElement>
-					<text><![CDATA[PRESENTACIÓN]]></text>
-				</staticText>
-				<textField>
-					<reportElement x="110" y="27" width="208" height="22" uuid="f90b2f8b-e114-488e-a38a-79692a08358c"/>
-					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.0"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.5"/>
-					</box>
-					<textElement verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{prop}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="0" y="27" width="109" height="22" uuid="ed21ce70-458a-4efc-87b6-726f2aeeb02d">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					</reportElement>
-					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.5"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.0"/>
-					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font isBold="true"/>
-					</textElement>
-					<text><![CDATA[PROPIETARIO(A):]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="318" y="27" width="131" height="22" uuid="128e1f75-cd07-42ce-bb74-144894487df1">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					</reportElement>
-					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.5"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.0"/>
-					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font isBold="true"/>
-					</textElement>
-					<text><![CDATA[CÓDIGO SADA:]]></text>
-				</staticText>
-				<textField isBlankWhenNull="true">
-					<reportElement x="449" y="27" width="119" height="22" uuid="eeecbf59-7cc3-4bf2-971d-8693ef6afd05"/>
-					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.0"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.5"/>
-					</box>
-					<textElement verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{com_sada_codi}]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupHeader>
+	<group name="Group2" isStartNewPage="true">
+		<groupExpression><![CDATA[1]]></groupExpression>
 		<groupFooter>
-			<band height="30">
+			<band height="21">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				<subreport>
-					<reportElement x="0" y="-1" width="567" height="21" uuid="6c41b0d1-ccf7-4b41-837b-e10c3a0404a7">
+					<reportElement x="-20" y="0" width="612" height="21" uuid="0be91b1e-6367-4687-a1e0-cabc8d034fd0">
 						<printWhenExpression><![CDATA[$P{prod}.isEmpty()]]></printWhenExpression>
 					</reportElement>
 					<subreportParameter name="com_id">
@@ -283,68 +108,145 @@ $V{regids}.contains($F{reg_id}+"") ? $V{regids}:$V{regids}+","+$F{reg_id}]]></va
 						<subreportParameterExpression><![CDATA[$P{dateTo}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					<subreportExpression><![CDATA[$P{RPT_URI_WORKSPACE}+$P{RPT_DIRECTORY_SEPARATOR}+"totalFacturas.jasper"]]></subreportExpression>
+					<subreportExpression><![CDATA[$P{RPT_URI_WORKSPACE}+$P{RPT_DIRECTORY_SEPARATOR}+"subrptTotalFacturas.jasper"]]></subreportExpression>
 				</subreport>
 			</band>
 		</groupFooter>
 	</group>
-	<group name="Group2">
-		<groupExpression><![CDATA[$F{prestc_group}]]></groupExpression>
-		<groupFooter>
-			<band height="22">
-				<textField>
-					<reportElement positionType="FixRelativeToBottom" x="318" y="-1" width="102" height="22" uuid="3978a867-12f8-4b25-ab81-1567af16300f"/>
-					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.5"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.5"/>
-					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$V{group2_total}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement positionType="FixRelativeToBottom" x="0" y="-1" width="190" height="22" uuid="fcc4fe8e-7dbf-4d21-a020-f6c980d8ff20">
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{id}]]></groupExpression>
+		<groupHeader>
+			<band height="77">
+				<staticText>
+					<reportElement x="0" y="11" width="190" height="22" uuid="e1491f4e-118d-4f01-ac06-631d7d4aefe5">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					</reportElement>
 					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[RAZON SOCIAL:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="190" y="11" width="378" height="22" uuid="e65cdfe4-2a25-4143-85a6-82717b35ca19"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.5"/>
 						<rightPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Justified" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{estb}]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement positionType="FixRelativeToBottom" x="420" y="-1" width="148" height="22" uuid="c48914bb-cb4d-45ff-8838-5d61d4efeacb"/>
+				<staticText>
+					<reportElement x="0" y="33" width="190" height="22" uuid="c3026211-564a-44f0-b991-5a916ac5ac9f">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
 					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[PROPIETARIO(A):]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="190" y="33" width="378" height="22" uuid="910d8903-2a19-43ae-a613-cc9b0a999da2"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.5"/>
 						<rightPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Justified" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{denominacion}]]></textFieldExpression>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{prop}]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement positionType="FixRelativeToBottom" x="190" y="-1" width="128" height="22" uuid="fc0978aa-3431-410c-805b-35f3b2e837c1"/>
+				<staticText>
+					<reportElement x="0" y="55" width="160" height="22" uuid="fc8e1118-8f2a-4d56-85e9-b22811a65071">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
 					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[FECHA:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="160" y="55" width="180" height="22" uuid="24deaeb9-9a94-40ac-bce4-fda3bb9e532e"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.5"/>
 						<rightPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{prestc}]]></textFieldExpression>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES")).format(new java.text.SimpleDateFormat("yy-MM-dd HH:mm").parse($F{reg_fech}))]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement x="340" y="55" width="102" height="22" uuid="f0c6dca1-a1a0-492a-b95a-baa934e38d12">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[HORA:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="442" y="55" width="126" height="22" uuid="f408cb77-8f42-40e9-9637-2bc7933740e6"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("HH:mm aa", new Locale("es","ES")).format(new java.text.SimpleDateFormat("yy-MM-dd HH:mm").parse($F{reg_fech}))]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<subreport>
+					<reportElement x="-20" y="0" width="612" height="21" uuid="8741571f-349a-4da3-883f-ed89227a6c50"/>
+					<subreportParameter name="id">
+						<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="RPT_URI_WORKSPACE">
+						<subreportParameterExpression><![CDATA[$P{RPT_URI_WORKSPACE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="RPT_DIRECTORY_SEPARATOR">
+						<subreportParameterExpression><![CDATA[$P{RPT_DIRECTORY_SEPARATOR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{RPT_URI_WORKSPACE}+$P{RPT_DIRECTORY_SEPARATOR}+"subrptFactura.jasper"]]></subreportExpression>
+				</subreport>
 			</band>
 		</groupFooter>
 	</group>
 	<background>
-		<band height="770" splitType="Stretch">
+		<band height="770">
 			<image vAlign="Bottom">
-				<reportElement x="-20" y="0" width="612" height="770" uuid="8ac79a3a-d7d5-415b-84fb-45e092090391"/>
+				<reportElement x="-20" y="0" width="612" height="770" uuid="887c84d9-6603-480c-bdbf-cf0b8f604636"/>
 				<imageExpression><![CDATA[$P{RPT_URI_WORKSPACE}+$P{RPT_DIRECTORY_SEPARATOR}+"copy.png"]]></imageExpression>
 			</image>
 		</band>
@@ -356,13 +258,13 @@ $V{regids}.contains($F{reg_id}+"") ? $V{regids}:$V{regids}+","+$F{reg_id}]]></va
 				<imageExpression><![CDATA[$P{RPT_URI_WORKSPACE}+$P{RPT_DIRECTORY_SEPARATOR}+$P{RPT_URI_LOGO_LEFT}]]></imageExpression>
 			</image>
 			<image>
-				<reportElement x="468" y="0" width="100" height="100" uuid="1583ae47-f178-43f1-8803-b742f8778c0e">
+				<reportElement x="469" y="0" width="100" height="100" uuid="1583ae47-f178-43f1-8803-b742f8778c0e">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<imageExpression><![CDATA[$P{RPT_URI_WORKSPACE}+$P{RPT_DIRECTORY_SEPARATOR}+$P{RPT_URI_LOGO_RIGHT}]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="103" y="0" width="366" height="100" uuid="726fe199-5ddb-42db-b702-08e5c6aa371d"/>
+				<reportElement x="103" y="0" width="366" height="100" uuid="3c482ea4-78ac-473f-af2a-91da667717c6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -383,16 +285,16 @@ $V{regids}.contains($F{reg_id}+"") ? $V{regids}:$V{regids}+","+$F{reg_id}]]></va
 				<textFieldExpression><![CDATA[" de  " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="10" width="434" height="20" uuid="7de9d379-02a0-47fa-8cce-1fdc72c1ea80"/>
+				<reportElement x="0" y="31" width="570" height="14" uuid="26e499b5-b530-4b63-bbff-7c6aa638f7e7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{DATE_BETWEEN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="10" width="434" height="20" uuid="c0fea765-b0c1-4792-a5a6-2f3d70c46a42"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{RPT_PAGE_HEADER}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="31" width="570" height="14" uuid="3db0b3dc-ad0e-4473-ad7b-63b178bf2736"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$P{DATE_BETWEEN}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -414,7 +316,7 @@ $V{regids}.contains($F{reg_id}+"") ? $V{regids}:$V{regids}+","+$F{reg_id}]]></va
 	<summary>
 		<band height="30">
 			<subreport>
-				<reportElement x="-20" y="0" width="590" height="30" uuid="ec7ca38c-7315-4f0c-a86a-8c03fd309543"/>
+				<reportElement x="-20" y="0" width="612" height="30" uuid="0702503f-45d2-4cbd-b9d7-074caea891cf"/>
 				<subreportParameter name="dateFrom">
 					<subreportParameterExpression><![CDATA[$P{dateFrom}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -432,6 +334,12 @@ $V{regids}.contains($F{reg_id}+"") ? $V{regids}:$V{regids}+","+$F{reg_id}]]></va
 				</subreportParameter>
 				<subreportParameter name="DATE_BETWEEN">
 					<subreportParameterExpression><![CDATA[$P{DATE_BETWEEN}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RPT_URI_WORKSPACE">
+					<subreportParameterExpression><![CDATA[$P{RPT_URI_WORKSPACE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="RPT_DIRECTORY_SEPARATOR">
+					<subreportParameterExpression><![CDATA[$P{RPT_DIRECTORY_SEPARATOR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{RPT_URI_WORKSPACE}+$P{RPT_DIRECTORY_SEPARATOR}+"subrptProductoTotal.jasper"]]></subreportExpression>

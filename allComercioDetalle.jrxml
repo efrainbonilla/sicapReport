@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-06-24T13:06:33 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="allComercio" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" uuid="e5d69bd3-2569-42d3-a02f-f4cb3eff5cce">
+<!-- 2016-07-12T11:30:41 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="allComercio" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="2" isSummaryNewPage="true" uuid="e5d69bd3-2569-42d3-a02f-f4cb3eff5cce">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conexion.xml"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="dateFrom" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["2016-02-05 00:00:00"]]></defaultValueExpression>
 	</parameter>
@@ -363,7 +372,12 @@ $V{regids}.contains($F{reg_id}+"") ? $V{regids}:$V{regids}+","+$F{reg_id}]]></va
 		</groupFooter>
 	</group>
 	<background>
-		<band splitType="Stretch"/>
+		<band height="770" splitType="Stretch">
+			<image vAlign="Bottom">
+				<reportElement x="-20" y="0" width="612" height="770" uuid="58a3eab1-f593-4f81-bd1d-1c6f935c47f1"/>
+				<imageExpression><![CDATA[$P{RPT_URI_WORKSPACE}+$P{RPT_DIRECTORY_SEPARATOR}+"copy.png"]]></imageExpression>
+			</image>
+		</band>
 	</background>
 	<title>
 		<band height="100" splitType="Stretch">
@@ -417,7 +431,8 @@ $V{regids}.contains($F{reg_id}+"") ? $V{regids}:$V{regids}+","+$F{reg_id}]]></va
 		</band>
 	</pageHeader>
 	<pageFooter>
-		<band height="30" splitType="Stretch">
+		<band height="40" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField pattern="MMMMM dd, yyyy">
 				<reportElement x="2" y="0" width="378" height="30" uuid="2e04000b-3d8e-442c-be5d-6bf3a75adceb"/>
 				<textElement verticalAlignment="Middle">
